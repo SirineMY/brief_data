@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    depends_on:
+      - db
+  db:
+    image: nouchka/sqlite3
+    environment:
+      - SQLITE_DATABASE=project_db.sqlite
+    volumes:
+      - data_volume:/var/lib/sqlite
+
+volumes:
+  data_volume:
