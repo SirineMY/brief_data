@@ -13,20 +13,20 @@ def setup_database():
 
     # Création des tables
     cursor.execute('''CREATE TABLE IF NOT EXISTS Produits (
-                    Nom TEXT,
+                    Nom VARCHAR(255),
                     ID VARCHAR(255) PRIMARY KEY,
-                    Prix REAL,
+                    Prix FLOAT,
                     Stock INTEGER)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Magasins (
                         ID INTEGER PRIMARY KEY,
-                        Ville TEXT,
+                        Ville VARCHAR(255),
                         nb_salaries INTEGER)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Ventes (
                     Date DATE,
                     ID_produit VARCHAR(255),
-                    Quantité INTEGER,
+                    Quantite INTEGER,
                     ID_magasin INTEGER,
                     FOREIGN KEY (ID_produit) REFERENCES Produits(ID),
                     FOREIGN KEY (ID_magasin) REFERENCES Magasins(ID))''')

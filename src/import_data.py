@@ -53,7 +53,7 @@ def import_data():
     successful_inserts = 0
     for index, row in tqdm(df_ventes.iterrows(), total=total_rows, desc="Insertion des ventes"):
         query = "INSERT INTO Ventes (Date, ID_produit, Quantite, ID_magasin) VALUES (?, ?, ?, ?)"
-        parameters = (row['Date'], row['ID_produit'], row['Quantité'], row['ID_magasin'])
+        parameters = (row['Date'], row['ID_produit'], row['Quantite'], row['ID_magasin'])
         try:
             cursor.execute(query, parameters)
             conn.commit()
