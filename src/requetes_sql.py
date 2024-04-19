@@ -7,20 +7,20 @@ def execute_queries():
 
     # Total des ventes
     cursor.execute('''INSERT INTO Analyses_Resultats (description, resultat)
-                      SELECT 'Total des ventes', SUM(prix * quantite) FROM Ventes
-                      JOIN Produits ON Ventes.produit_id = Produits.id''')
+                      SELECT 'Total des ventes', SUM(Prix * V.Quantité) FROM Ventes
+                      LEFTJOIN Produits ON V.ID_produit = Produits.ID''')
 
     # Ventes par produit
     cursor.execute('''INSERT INTO Analyses_Resultats (description, resultat)
-                      SELECT 'Ventes par produit', Produits.nom || ' : ' || SUM(quantite) FROM Ventes
-                      JOIN Produits ON Ventes.produit_id = Produits.id
-                      GROUP BY Produits.nom''')
+                      SELECT 'Ventes par produit', Produits.Nom || ' : ' || SUM(Quantité) FROM Ventes
+                      JOIN Produits ON Ventes.ID_produit = Produits.ID
+                      GROUP BY Produits.Nom''')
 
     # Ventes par région
     cursor.execute('''INSERT INTO Analyses_Resultats (description, resultat)
-                      SELECT 'Ventes par région', Magasins.emplacement || ' : ' || SUM(quantite) FROM Ventes
-                      JOIN Magasins ON Ventes.magasin_id = Magasins.id
-                      GROUP BY Magasins.emplacement''')
+                      SELECT 'Ventes par région', Magasins.Ville || ' : ' || SUM(Quantité) FROM Ventes
+                      JOIN Magasins ON Ventes.ID_magasin = Magasins.ID
+                      GROUP BY Magasins.Ville''')
 
     conn.commit()
     conn.close()

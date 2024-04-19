@@ -1,34 +1,38 @@
 import sqlite3
-import import_data
-import requetes_sql
+from import_data import *
+from requetes_sql import *
 
 
 def setup_database():
     conn = sqlite3.connect('sales_data.db')
     cursor = conn.cursor()
+    
+    cursor.execute('''DROP TABLE IF EXISTS Magasins;''')
+    cursor.execute('''DROP TABLE IF EXISTS Ventes;''')
+    cursor.execute('''DROP TABLE IF EXISTS Produits;''')
 
     # Création des tables
     cursor.execute('''CREATE TABLE IF NOT EXISTS Produits (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Nom TEXT,
-                        Prix REAL,
-                        Stock TEXT)''')
+                    Nom TEXT,
+                    ID VARCHAR(255) PRIMARY KEY,
+                    Prix REAL,
+                    Stock INTEGER)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Magasins (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ID INTEGER PRIMARY KEY,
                         Ville TEXT,
                         nb_salaries INTEGER)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Ventes (
-                        produit_id INTEGER,
-                        magasin_id INTEGER,
-                        date DATE,
-                        quantite INTEGER,
-                        FOREIGN KEY (produit_id) REFERENCES Produits(id),
-                        FOREIGN KEY (magasin_id) REFERENCES Magasins(id))''')
+                    Date DATE,
+                    ID_produit VARCHAR(255),
+                    Quantité INTEGER,
+                    ID_magasin INTEGER,
+                    FOREIGN KEY (ID_produit) REFERENCES Produits(ID),
+                    FOREIGN KEY (ID_magasin) REFERENCES Magasins(ID))''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Analyses_Resultats (
-                        requete_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        requete_id INTEGER PRIMARY KEY,
                         description TEXT,
                         resultat TEXT)''')
 
@@ -37,8 +41,8 @@ def setup_database():
 
 def main():
     setup_database()  # Configurer et créer la base de données et les tables
-    import_data.import_data()  # Importer les données dans la base de données
-    requetes_sql.execute_queries()  # Exécuter les requêtes SQL et stocker les résultats
+    import_data()  # Importer les données dans la base de données
+    execute_queries()  # Exécuter les requêtes SQL et stocker les résultats
 
 
 if __name__ == "__main__":
